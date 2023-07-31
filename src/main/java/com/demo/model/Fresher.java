@@ -1,6 +1,7 @@
 package com.demo.model;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -9,9 +10,10 @@ import javax.persistence.*;
 @Data
 public class Fresher {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @OneToOne(mappedBy = "fresher")
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
+    @OneToOne
     @JoinColumn(name = "profile_id")
     private Profile profile;
     @Column(name = "program")
@@ -24,6 +26,8 @@ public class Fresher {
     private Float project2Point;
     @Column(name = "project3_point")
     private Float project3Point;
+    @Column(name = "avg_point")
+    private Float avgPoint;
     @ManyToOne
     @JoinColumn(name = "center_id")
     private Center center;

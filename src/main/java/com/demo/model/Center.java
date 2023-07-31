@@ -1,6 +1,7 @@
 package com.demo.model;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -9,8 +10,9 @@ import javax.persistence.*;
 @Data
 public class Center {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
     @Column(name = "name")
     private String name;
     @Column(name = "description")

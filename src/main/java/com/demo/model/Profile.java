@@ -1,6 +1,7 @@
 package com.demo.model;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -11,8 +12,9 @@ import java.util.Date;
 @Data
 public class Profile {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
     @Column(name = "full_name")
     private String fullName;
     @Column(name = "phone_number")
@@ -24,7 +26,4 @@ public class Profile {
     @Column(name = "address")
     @Type(type = "text")
     private String address;
-    @OneToOne(mappedBy = "profile")
-    @JoinColumn(name = "fresher_id")
-    private Fresher fresher;
 }
