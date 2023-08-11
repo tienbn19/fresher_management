@@ -32,7 +32,4 @@ public class Account {
     @Email
     @Column(name = "email", unique = true)
     private String email;
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Authority authority;
 }
