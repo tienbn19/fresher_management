@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/freshers")
 @RequiredArgsConstructor
@@ -39,7 +41,7 @@ public class FresherResource {
     }
 
     @PostMapping("/calculate-point/{fresherId}")
-    public ResponseEntity<?> calculatePoint(@RequestBody PointReq pointReq, @PathVariable String fresherId) {
+    public ResponseEntity<?> calculatePoint(@RequestBody @Valid PointReq pointReq, @PathVariable String fresherId) {
         return ResponseUtils.ok(fresherService.calculatePoint(fresherId, pointReq));
     }
 

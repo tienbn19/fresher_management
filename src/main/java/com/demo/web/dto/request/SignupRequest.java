@@ -8,14 +8,14 @@ import javax.validation.constraints.Size;
 
 @Data
 public class SignupRequest {
-    @NotBlank
-    @Size(max = 50)
-    @Email
+    @NotBlank(message = "email is required")
+    @Size(max = 50, message = "email is max with 50 character")
+    @Email(message = "Invalid email")
     private String email;
-    @NotBlank
-    @Size(max = 50)
+    @NotBlank(message = "username is required")
+    @Size(max = 50, message = "username is max with 50 character")
     private String username;
-    @NotBlank
-    @Size(min = 5, max = 40)
+    @NotBlank(message = "password is required")
+    @Size(min = 5, max = 40, message = "password is min with 5 character and max with 40 character")
     private String password;
 }

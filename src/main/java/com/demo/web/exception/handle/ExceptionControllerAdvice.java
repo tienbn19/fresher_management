@@ -8,8 +8,15 @@ import com.demo.web.exception.ServiceException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -39,6 +46,20 @@ public class ExceptionControllerAdvice {
         String errMsg = "Can not find " + e.getEntityName() + " with id: " + e.getEntityId();
         log.error(errKey, errMsg);
         return ResponseUtils.badRequest(ErrorResponse.of(errKey, errMsg));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Response> handleValidationErrors(MethodArgumentNotValidException ex) {
+        List<String> errors = ex.getBindingResult().getFieldErrors()
+                .stream().map(FieldError::getDefaultMessage).collect(Collectors.toList());
+        return ResponseUtils.badRequest(ErrorResponse
+                .of("err.invalid-request", "invalid request", getErrorsMap(errors)));
+    }
+
+    private Map<String, Object> getErrorsMap(List<String> errors) {
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("errors", errors);
+        return errorResponse;
     }
 
 }
